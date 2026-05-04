@@ -360,8 +360,12 @@ nav.scrolled{box-shadow:var(--sh);}
 }
 .uni-step{text-align:center;padding:24px 16px;}
 .uni-step-n{
-  font-family:'DM Serif Display',serif;font-size:48px;
-  color:rgba(0,180,166,.25);line-height:1;margin-bottom:8px;
+  width:60px;height:60px;border-radius:50%;
+  background:var(--teal);color:#fff;
+  font-family:'DM Serif Display',serif;font-size:24px;
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 16px;
+  box-shadow:0 4px 16px rgba(0,121,107,.4);
 }
 .uni-step-title{font-size:15px;font-weight:700;color:#fff;margin-bottom:8px;}
 .uni-step-desc{font-size:13px;color:rgba(255,255,255,.72);line-height:1.55;}
@@ -763,9 +767,7 @@ footer{background:var(--navy);border-top:1px solid rgba(255,255,255,.07);padding
       <div class="marca-card"><img src="logo-soubeiran.png" alt="Soubeiran Chobet" onerror="this.style.display='none'"></div>
       <div class="marca-card"><img src="Logo-baihe.png" alt="Baihe ABLE" onerror="this.style.display='none'"></div>
       <div class="marca-card"><img src="conkote (1).png" alt="Conkote" onerror="this.style.display='none'"></div>
-      <div class="marca-card" style="background:var(--navy);justify-content:center;gap:6px;">
-        <img src="Medical Shields.png" alt="Medical Shields" style="height:40px;width:auto;" onerror="this.style.display='none'">
-      </div>
+
     </div>
   </div>
 </section>
@@ -876,12 +878,40 @@ footer{background:var(--navy);border-top:1px solid rgba(255,255,255,.07);padding
 <!-- FOOTER -->
 <footer>
   <div class="container">
-    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px;">
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:40px;flex-wrap:wrap;padding-bottom:32px;">
       <div>
-        <img src="cuidamostuherida.jpg" alt="CTH" style="height:36px;width:auto;margin-bottom:8px;" onerror="this.style.display='none'">
-        <div style="font-size:12px;color:rgba(255,255,255,.45);">Unidad Médica · Caracas, Venezuela</div>
+        <img src="cuidamostuherida.jpg" alt="CTH" style="height:44px;width:auto;margin-bottom:12px;" onerror="this.style.display='none'">
+        <div style="font-size:13px;font-weight:600;color:#fff;margin-bottom:4px;">Cuidamos Tu Herida</div>
+        <div style="font-size:12px;color:rgba(255,255,255,.55);line-height:1.6;">Unidad Médica Especializada<br>Caracas, Venezuela<br>Parte del ecosistema Medical Shields MS, C.A.</div>
       </div>
-      <div style="font-size:12px;color:rgba(255,255,255,.4);">Parte del ecosistema Medical Shields MS, C.A.</div>
+      <div>
+        <div style="font-size:11px;font-weight:700;color:var(--cyan);letter-spacing:2px;text-transform:uppercase;margin-bottom:16px;">Contacto</div>
+        <div style="display:flex;flex-direction:column;gap:12px;">
+          <a href="https://wa.me/584166181760" target="_blank" style="display:flex;align-items:center;gap:10px;color:rgba(255,255,255,.85);font-size:13px;font-weight:500;text-decoration:none;">
+            <span style="width:32px;height:32px;border-radius:8px;background:rgba(0,180,166,.15);display:flex;align-items:center;justify-content:center;font-size:15px;">💬</span>
+            +58 416-618-1760
+          </a>
+          <a href="mailto:informacion@cuidamostuherida.com" target="_blank" style="display:flex;align-items:center;gap:10px;color:rgba(255,255,255,.85);font-size:13px;font-weight:500;text-decoration:none;">
+            <span style="width:32px;height:32px;border-radius:8px;background:rgba(0,180,166,.15);display:flex;align-items:center;justify-content:center;font-size:15px;">✉️</span>
+            informacion@cuidamostuherida.com
+          </a>
+          <a href="https://cuidamostuherida.com" target="_blank" style="display:flex;align-items:center;gap:10px;color:rgba(255,255,255,.85);font-size:13px;font-weight:500;text-decoration:none;">
+            <span style="width:32px;height:32px;border-radius:8px;background:rgba(0,180,166,.15);display:flex;align-items:center;justify-content:center;font-size:15px;">🌐</span>
+            cuidamostuherida.com
+          </a>
+          <a href="https://instagram.com/cuidamostuherida" target="_blank" style="display:flex;align-items:center;gap:10px;color:rgba(255,255,255,.85);font-size:13px;font-weight:500;text-decoration:none;">
+            <span style="width:32px;height:32px;border-radius:8px;background:rgba(0,180,166,.15);display:flex;align-items:center;justify-content:center;font-size:15px;">📸</span>
+            @cuidamostuherida
+          </a>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:11px;font-weight:700;color:var(--cyan);letter-spacing:2px;text-transform:uppercase;margin-bottom:16px;">Ecosistema</div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <a href="https://medicalshields.com" target="_blank" style="color:rgba(255,255,255,.75);font-size:13px;text-decoration:none;">🛡️ medicalshields.com</a>
+          <a href="https://cumbrechp.org" target="_blank" style="color:rgba(255,255,255,.75);font-size:13px;text-decoration:none;">🏥 cumbrechp.org</a>
+        </div>
+      </div>
     </div>
     <div class="footer-bottom">© 2026 Cuidamos Tu Herida · Todos los derechos reservados</div>
   </div>
