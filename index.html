@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Red de Enfermería CTH · Cuidamos Tu Herida</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy:    #07202F;
+  --navy2:   #0C2D40;
+  --teal:    #00796B;
+  --teal-lt: #E0F2F0;
+  --teal-d:  #004D40;
+  --cyan:    #00B4A6;
+  --green:   #00C49A;
+  --orange:  #F07130;
+  --orange-d:#d45e20;
+  --white:   #FFFFFF;
+  --off:     #F7F8FA;
+  --g50:     #ECEEF0;
+  --g100:    #D4D0CB;
+  --g300:    #9A958D;
+  --g500:    #5A5650;
+  --sh:      0 4px 24px rgba(0,0,0,.08);
+  --sh2:     0 8px 40px rgba(0,0,0,.12);
+  --r:       10px;
+  --rlg:     16px;
+  --rxl:     24px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;color:var(--navy);background:var(--white);-webkit-font-smoothing:antialiased;}
+.container{width:100%;max-width:1100px;margin:0 auto;padding:0 28px;}
+img{max-width:100%;display:block;}
+a{text-decoration:none;}
+h1,h2,h3,h4{font-family:'DM Serif Display',serif;line-height:1.2;}
+
+/* ── UTILITIES ── */
+.eyebrow{display:inline-block;font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;}
+.ey-teal{color:var(--teal);}
+.ey-white{color:rgba(255,255,255,.75);}
+.sec-h{font-size:clamp(28px,4vw,40px);color:var(--navy);margin-bottom:14px;line-height:1.2;}
+.sec-h-w{font-size:clamp(26px,3.5vw,36px);color:#fff;margin-bottom:14px;}
+.sec-p{font-size:15px;color:var(--g500);line-height:1.8;}
+.sec-p-w{font-size:15px;color:rgba(255,255,255,.85);line-height:1.8;}
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .55s ease,transform .55s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+
+/* ── BUTTONS ── */
+.btn-teal{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  background:var(--teal);color:#fff;font-size:14px;font-weight:700;
+  padding:14px 28px;border-radius:100px;border:none;cursor:pointer;
+  transition:background .2s,transform .15s;box-shadow:0 4px 16px rgba(0,121,107,.3);
+}
+.btn-teal:hover{background:var(--teal-d);transform:translateY(-1px);}
+.btn-outline-w{
+  display:inline-flex;align-items:center;justify-content:center;gap:7px;
+  padding:13px 24px;background:transparent;color:rgba(255,255,255,.88);
+  font-size:14px;font-weight:600;border:1.5px solid rgba(255,255,255,.3);
+  border-radius:100px;cursor:pointer;transition:border-color .2s,color .2s;
+}
+.btn-outline-w:hover{border-color:var(--cyan);color:var(--cyan);}
+.btn-outline-dark{
+  display:inline-flex;align-items:center;justify-content:center;gap:7px;
+  padding:13px 24px;background:transparent;color:var(--navy);
+  font-size:14px;font-weight:600;border:1.5px solid var(--navy);
+  border-radius:100px;cursor:pointer;transition:background .2s,color .2s;
+}
+.btn-outline-dark:hover{background:var(--navy);color:#fff;}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  background:rgba(255,255,255,.96);backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--g50);transition:box-shadow .3s;
+}
+nav.scrolled{box-shadow:var(--sh);}
+.nav-inner{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:12px 28px;max-width:1100px;margin:0 auto;
+}
+.nav-logo img{height:44px;width:auto;object-fit:contain;}
+.nav-links{display:flex;gap:24px;list-style:none;}
+.nav-links a{font-size:13px;font-weight:600;color:var(--g500);transition:color .2s;}
+.nav-links a:hover{color:var(--teal);}
+.nav-cta{
+  background:var(--teal);color:#fff !important;
+  padding:9px 20px;border-radius:100px;
+  font-size:13px !important;font-weight:700 !important;
+  transition:background .2s !important;
+}
+.nav-cta:hover{background:var(--teal-d) !important;}
+.nav-mob{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;}
+.nav-mob span{display:block;width:22px;height:1.5px;background:var(--navy);border-radius:2px;}
+@media(max-width:768px){.nav-links{display:none;}.nav-mob{display:flex;}}
+
+/* ── FAB ── */
+#fab-postular{
+  position:fixed;bottom:28px;right:24px;z-index:8888;
+  align-items:center;gap:8px;
+  background:var(--teal);color:#fff;
+  font-size:13px;font-weight:700;
+  padding:13px 22px;border-radius:50px;
+  box-shadow:0 6px 28px rgba(0,121,107,.4);
+  text-decoration:none;display:none;
+  transition:transform .2s,box-shadow .2s,background .2s;
+  white-space:nowrap;
+}
+#fab-postular:hover{background:var(--teal-d);transform:translateY(-2px);}
+@media(max-width:600px){#fab-postular{bottom:20px;right:16px;padding:11px 16px;font-size:12px;}}
+
+/* ── HERO ── */
+#hero{
+  min-height:100vh;
+  background:var(--navy);
+  position:relative;overflow:hidden;
+  display:flex;align-items:center;
+  padding-top:72px;
+}
+.hero-texture{
+  position:absolute;inset:0;
+  background-image:radial-gradient(circle,rgba(0,180,166,.07) 1px,transparent 1px);
+  background-size:40px 40px;
+}
+.hero-glow-r{
+  position:absolute;top:-120px;right:-100px;
+  width:700px;height:700px;border-radius:50%;
+  background:radial-gradient(circle,rgba(0,180,166,.18) 0%,transparent 65%);
+}
+.hero-glow-l{
+  position:absolute;bottom:-80px;left:-60px;
+  width:500px;height:500px;border-radius:50%;
+  background:radial-gradient(circle,rgba(0,196,154,.12) 0%,transparent 65%);
+}
+.hero-inner{
+  position:relative;z-index:1;
+  display:grid;grid-template-columns:57% 1fr;
+  gap:60px;align-items:center;
+  width:100%;max-width:1100px;margin:0 auto;
+  padding:90px 28px 80px;
+}
+.hero-logo{margin-bottom:28px;}
+.hero-logo img{width:min(300px,85%);height:auto;object-fit:contain;filter:drop-shadow(0 4px 20px rgba(0,180,166,.3));}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(0,180,166,.12);border:1px solid rgba(0,180,166,.25);
+  border-radius:100px;padding:6px 16px;margin-bottom:22px;
+}
+.badge-dot{width:6px;height:6px;border-radius:50%;background:var(--cyan);animation:blink 2.4s ease-in-out infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+.hero-badge span{font-size:10px;font-weight:700;color:var(--cyan);letter-spacing:2px;text-transform:uppercase;}
+.hero-h1{
+  font-family:'DM Serif Display',serif;
+  font-size:clamp(36px,5vw,58px);
+  color:#fff;line-height:1.1;
+  margin-bottom:20px;
+}
+.hero-h1 em{font-style:italic;color:var(--cyan);}
+.hero-sub{
+  font-size:16px;color:rgba(255,255,255,.85);
+  line-height:1.7;margin-bottom:28px;
+  border-left:3px solid var(--cyan);padding-left:16px;
+}
+.hero-btns{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:28px;}
+.hero-refuerzo{
+  font-size:13px;color:rgba(255,255,255,.7);
+  font-style:italic;display:flex;align-items:center;gap:8px;
+}
+.hero-refuerzo::before{content:'—';color:var(--cyan);}
+/* Video card */
+.hero-vid{
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);
+  border-radius:20px;padding:24px;
+}
+.hero-vid-label{
+  font-size:11px;font-weight:700;color:var(--cyan);
+  letter-spacing:1.5px;text-transform:uppercase;margin-bottom:16px;
+  display:flex;align-items:center;gap:6px;
+}
+.vid-ph{
+  background:rgba(255,255,255,.05);border-radius:14px;
+  aspect-ratio:16/9;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:12px;
+}
+.vid-play{
+  width:56px;height:56px;border-radius:50%;
+  background:var(--cyan);display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:transform .2s,background .2s;
+}
+.vid-play:hover{transform:scale(1.08);background:var(--teal);}
+.vid-play svg{margin-left:4px;}
+.vid-ph p{font-size:12px;color:rgba(255,255,255,.75);font-weight:500;}
+@media(max-width:900px){
+  .hero-inner{grid-template-columns:1fr;gap:40px;padding:80px 24px 60px;}
+  .hero-vid{display:none;}
+}
+
+/* ── S2 IDENTIFICACIÓN ── */
+#identificacion{padding:96px 0;background:var(--off);}
+.id-inner{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;}
+.id-checks{display:flex;flex-direction:column;gap:16px;margin:28px 0;}
+.id-check{
+  display:flex;align-items:center;gap:14px;
+  background:#fff;border-radius:12px;padding:16px 20px;
+  border:1px solid var(--g50);box-shadow:0 2px 8px rgba(0,0,0,.04);
+}
+.id-check-icon{
+  width:36px;height:36px;border-radius:9px;flex-shrink:0;
+  background:var(--teal-lt);display:flex;align-items:center;justify-content:center;
+  color:var(--teal);font-weight:700;font-size:18px;
+}
+.id-check-txt{font-size:14px;font-weight:600;color:var(--navy);}
+.id-frase{
+  background:var(--navy);border-radius:16px;padding:28px 32px;
+  font-family:'DM Serif Display',serif;font-size:20px;color:#fff;line-height:1.45;
+}
+.id-frase em{color:var(--cyan);font-style:italic;}
+.id-visual{
+  background:linear-gradient(135deg,var(--navy) 0%,var(--navy2) 100%);
+  border-radius:24px;padding:40px 32px;
+  display:flex;flex-direction:column;gap:20px;position:relative;overflow:hidden;
+}
+.id-visual::before{
+  content:'';position:absolute;inset:0;
+  background-image:radial-gradient(circle,rgba(0,180,166,.06) 1px,transparent 1px);
+  background-size:28px 28px;
+}
+.id-stat{position:relative;z-index:1;}
+.id-stat-n{font-family:'DM Serif Display',serif;font-size:42px;color:var(--cyan);line-height:1;}
+.id-stat-l{font-size:12px;color:rgba(255,255,255,.75);font-weight:600;letter-spacing:.5px;text-transform:uppercase;margin-top:4px;}
+@media(max-width:768px){.id-inner{grid-template-columns:1fr;}.id-visual{display:none;}}
+
+/* ── S3 CÓMO FUNCIONA EL FLUJO ── */
+#flujo{padding:96px 0;background:#fff;}
+.flujo-steps{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:24px;margin-top:48px;position:relative;
+}
+.flujo-steps::before{
+  content:'';position:absolute;top:32px;left:16%;right:16%;height:2px;
+  background:linear-gradient(to right,var(--teal-lt),var(--cyan),var(--teal-lt));
+  z-index:0;
+}
+.fstep{
+  background:var(--off);border-radius:16px;padding:28px 24px;
+  border:1px solid var(--g50);text-align:center;position:relative;z-index:1;
+}
+.fstep-num{
+  width:48px;height:48px;border-radius:50%;
+  background:var(--teal);color:#fff;
+  font-family:'DM Serif Display',serif;font-size:20px;
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 16px;box-shadow:0 4px 16px rgba(0,121,107,.3);
+}
+.fstep-title{font-size:15px;font-weight:700;color:var(--navy);margin-bottom:8px;}
+.fstep-desc{font-size:13px;color:var(--g500);line-height:1.6;}
+.fstep-highlight{background:var(--teal);border-color:var(--teal);}
+.fstep-highlight .fstep-num{background:rgba(255,255,255,.2);}
+.fstep-highlight .fstep-title,.fstep-highlight .fstep-desc{color:#fff;}
+.fstep-highlight .fstep-desc{color:rgba(255,255,255,.85);}
+.flujo-frase{
+  text-align:center;margin-top:40px;
+  font-size:15px;font-weight:600;color:var(--teal);
+  display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.flujo-frase::before{content:'→';}
+@media(max-width:768px){.flujo-steps{grid-template-columns:1fr;}.flujo-steps::before{display:none;}}
+
+/* ── S4 PROPUESTA DE VALOR ── */
+#propuesta{padding:96px 0;background:var(--navy);}
+.prop-inner{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;}
+.prop-tag{
+  display:inline-flex;align-items:center;gap:10px;
+  background:rgba(0,180,166,.1);border:1px solid rgba(0,180,166,.2);
+  border-radius:100px;padding:10px 20px;margin-top:28px;
+  font-size:14px;font-weight:700;color:var(--cyan);
+}
+.prop-tag::before{content:'→';}
+.prop-cards{display:flex;flex-direction:column;gap:16px;}
+.prop-card{
+  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);
+  border-radius:14px;padding:20px 24px;
+  display:flex;align-items:flex-start;gap:16px;
+}
+.prop-card-icon{
+  width:40px;height:40px;border-radius:10px;flex-shrink:0;
+  background:#fff;display:flex;align-items:center;justify-content:center;font-size:20px;
+}
+.prop-card-txt h4{font-size:14px;font-weight:700;color:#fff;margin-bottom:4px;}
+.prop-card-txt p{font-size:13px;color:rgba(255,255,255,.75);line-height:1.55;}
+@media(max-width:768px){.prop-inner{grid-template-columns:1fr;}}
+
+/* ── S5 RESPALDO CLÍNICO ── */
+#respaldo{padding:96px 0;background:var(--off);}
+.resp-inner{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;}
+.resp-bullets{list-style:none;display:flex;flex-direction:column;gap:14px;margin-top:24px;}
+.resp-bullets li{
+  display:flex;align-items:flex-start;gap:12px;
+  font-size:15px;font-weight:600;color:var(--navy);
+}
+.resp-check{
+  width:24px;height:24px;border-radius:50%;flex-shrink:0;
+  background:var(--teal-lt);display:flex;align-items:center;justify-content:center;
+  color:var(--teal);font-size:12px;font-weight:700;margin-top:1px;
+}
+.resp-visual{
+  background:linear-gradient(135deg,var(--teal) 0%,var(--teal-d) 100%);
+  border-radius:24px;padding:40px 36px;color:#fff;
+}
+.resp-visual-title{
+  font-family:'DM Serif Display',serif;font-size:22px;
+  margin-bottom:20px;line-height:1.35;
+}
+.resp-visual-title em{font-style:italic;color:rgba(255,255,255,.75);}
+.resp-ico-row{display:flex;flex-direction:column;gap:16px;}
+.resp-ico-item{
+  display:flex;align-items:center;gap:12px;
+  background:rgba(255,255,255,.12);border-radius:12px;padding:14px 18px;
+}
+.resp-ico{font-size:22px;width:36px;text-align:center;}
+.resp-ico-txt{font-size:13px;font-weight:600;color:#fff;}
+@media(max-width:768px){.resp-inner{grid-template-columns:1fr;}}
+
+/* ── S6 BENEFICIOS ── */
+#beneficios{padding:96px 0;background:#fff;}
+.ben-grid{
+  display:grid;grid-template-columns:repeat(2,1fr);
+  gap:20px;margin-top:48px;
+}
+@media(min-width:900px){.ben-grid{grid-template-columns:repeat(4,1fr);}}
+.ben-card{
+  border-radius:20px;padding:32px 24px;
+  border:1px solid var(--g50);
+  transition:transform .2s,box-shadow .2s;
+}
+.ben-card:hover{transform:translateY(-4px);box-shadow:var(--sh2);}
+.ben-card:nth-child(1){background:var(--teal-lt);}
+.ben-card:nth-child(2){background:var(--navy);color:#fff;}
+.ben-card:nth-child(3){background:var(--off);}
+.ben-card:nth-child(4){background:linear-gradient(135deg,var(--teal) 0%,var(--teal-d) 100%);color:#fff;}
+.ben-icon{font-size:28px;margin-bottom:16px;display:block;
+  width:48px;height:48px;border-radius:12px;background:rgba(255,255,255,.2);
+  display:flex;align-items:center;justify-content:center;}
+.ben-card:nth-child(1) .ben-icon,.ben-card:nth-child(3) .ben-icon{background:rgba(0,121,107,.1);}
+.ben-title{font-family:'DM Serif Display',serif;font-size:18px;margin-bottom:8px;}
+.ben-card:nth-child(1) .ben-title,.ben-card:nth-child(3) .ben-title{color:var(--navy);}
+.ben-card:nth-child(2) .ben-title,.ben-card:nth-child(4) .ben-title{color:#fff;}
+.ben-desc{font-size:13px;line-height:1.6;}
+.ben-card:nth-child(1) .ben-desc,.ben-card:nth-child(3) .ben-desc{color:var(--g500);}
+.ben-card:nth-child(2) .ben-desc,.ben-card:nth-child(4) .ben-desc{color:rgba(255,255,255,.82);}
+
+/* ── S7 CÓMO UNIRSE ── */
+#unirse{padding:96px 0;background:var(--navy);}
+.uni-steps{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:16px;margin-top:48px;
+}
+.uni-step{text-align:center;padding:24px 16px;}
+.uni-step-n{
+  font-family:'DM Serif Display',serif;font-size:48px;
+  color:rgba(0,180,166,.25);line-height:1;margin-bottom:8px;
+}
+.uni-step-title{font-size:15px;font-weight:700;color:#fff;margin-bottom:8px;}
+.uni-step-desc{font-size:13px;color:rgba(255,255,255,.72);line-height:1.55;}
+.uni-divider{
+  display:flex;align-items:center;justify-content:center;
+  padding-top:32px;
+}
+.uni-divider::before,.uni-divider::after{
+  content:'';flex:1;height:1px;background:rgba(255,255,255,.1);
+}
+.uni-frase{
+  margin:0 20px;font-size:14px;font-weight:600;
+  color:var(--cyan);text-align:center;max-width:500px;
+}
+@media(max-width:768px){.uni-steps{grid-template-columns:1fr 1fr;}}
+
+/* ── S8 TECNOLOGÍA ── */
+#tecnologia{padding:96px 0;background:var(--off);}
+.tec-intro{max-width:620px;margin-bottom:56px;}
+.marcas-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:12px;
+}
+@media(max-width:600px){.marcas-grid{grid-template-columns:repeat(2,1fr);}}
+.marca-card{
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:20px 12px;
+  background:#fff;border-radius:12px;
+  border:1px solid var(--g50);
+  cursor:pointer;
+  transition:box-shadow .2s,transform .2s,border-color .2s;
+  min-height:90px;
+}
+.marca-card:hover{
+  box-shadow:0 6px 24px rgba(0,121,107,.15);
+  transform:translateY(-2px);border-color:var(--teal);
+}
+.marca-card img{width:100%;max-width:110px;height:44px;object-fit:contain;}
+
+/* ── S9 EDUCACIÓN ── */
+#educacion{padding:96px 0;background:var(--white);}
+.edu-inner{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start;}
+.edu-cards{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:32px;}
+.edu-card{
+  background:var(--off);border-radius:16px;padding:24px 20px;
+  border:1px solid var(--g50);
+}
+.edu-card-ico{font-size:24px;margin-bottom:12px;display:block;
+  width:44px;height:44px;border-radius:10px;
+  background:var(--teal-lt);display:flex;align-items:center;justify-content:center;}
+.edu-card-title{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:6px;}
+.edu-card-desc{font-size:12px;color:var(--g500);line-height:1.55;}
+.edu-frase{
+  margin-top:28px;padding:20px 24px;
+  background:var(--navy);border-radius:14px;
+  font-size:15px;font-weight:600;color:var(--cyan);
+  display:flex;align-items:center;gap:10px;
+}
+.edu-frase::before{content:'→';font-size:18px;}
+.edu-visual{
+  background:linear-gradient(135deg,var(--navy) 0%,var(--navy2) 100%);
+  border-radius:24px;padding:40px 32px;position:relative;overflow:hidden;
+}
+.edu-visual::before{
+  content:'';position:absolute;inset:0;
+  background-image:radial-gradient(circle,rgba(0,180,166,.06) 1px,transparent 1px);
+  background-size:28px 28px;
+}
+.edu-ecosistema{position:relative;z-index:1;}
+.edu-eco-title{
+  font-family:'DM Serif Display',serif;font-size:22px;color:#fff;
+  margin-bottom:20px;
+}
+.edu-eco-list{list-style:none;display:flex;flex-direction:column;gap:12px;}
+.edu-eco-list li{
+  display:flex;align-items:center;gap:12px;
+  font-size:14px;font-weight:600;color:rgba(255,255,255,.9);
+}
+.edu-eco-list li::before{
+  content:'';width:8px;height:8px;border-radius:50%;
+  background:var(--cyan);flex-shrink:0;
+}
+@media(max-width:768px){.edu-inner{grid-template-columns:1fr;}.edu-cards{grid-template-columns:1fr;}}
+
+/* ── S10 FORMULARIO ── */
+#formulario{padding:96px 0;background:var(--navy);}
+.form-inner{
+  display:grid;grid-template-columns:1fr 1.2fr;
+  gap:64px;align-items:start;
+}
+.form-left h2{color:#fff;margin-bottom:16px;}
+.form-left .sec-p-w{margin-bottom:28px;}
+.form-cta-txt{
+  background:rgba(0,180,166,.1);border:1px solid rgba(0,180,166,.2);
+  border-radius:14px;padding:20px 24px;
+  font-size:15px;font-weight:600;color:var(--cyan);
+  font-style:italic;line-height:1.5;
+}
+.form-card{
+  background:#fff;border-radius:24px;padding:40px 36px;
+  box-shadow:0 20px 60px rgba(0,0,0,.25);
+}
+.form-card h3{
+  font-family:'DM Serif Display',serif;font-size:22px;
+  color:var(--navy);margin-bottom:24px;
+}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.form-group{display:flex;flex-direction:column;gap:6px;}
+.form-group.full{grid-column:1/-1;}
+.form-group label{font-size:12px;font-weight:700;color:var(--navy);letter-spacing:.3px;text-transform:uppercase;}
+.form-group input,
+.form-group select,
+.form-group textarea{
+  padding:12px 14px;border:1.5px solid var(--g50);border-radius:10px;
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;color:var(--navy);
+  background:var(--off);transition:border-color .2s;outline:none;
+}
+.form-group input:focus,
+.form-group select:focus{border-color:var(--teal);}
+.form-group select{cursor:pointer;}
+.form-submit{
+  width:100%;padding:15px;background:var(--teal);color:#fff;
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:700;
+  border:none;border-radius:100px;cursor:pointer;margin-top:8px;
+  transition:background .2s,transform .15s;
+  box-shadow:0 4px 16px rgba(0,121,107,.3);
+}
+.form-submit:hover{background:var(--teal-d);transform:translateY(-1px);}
+.form-success{
+  display:none;text-align:center;padding:40px 20px;
+}
+.form-success-icon{font-size:48px;margin-bottom:16px;}
+.form-success h3{font-family:'DM Serif Display',serif;font-size:24px;color:var(--navy);margin-bottom:12px;}
+.form-success p{font-size:14px;color:var(--g500);line-height:1.7;}
+@media(max-width:768px){
+  .form-inner{grid-template-columns:1fr;}
+  .form-grid{grid-template-columns:1fr;}
+  .form-card{padding:28px 20px;}
+}
+
+/* ── S11 CTA FINAL ── */
+#cta-final{
+  padding:96px 0;
+  background:linear-gradient(135deg,var(--teal-d) 0%,var(--navy) 100%);
+  text-align:center;position:relative;overflow:hidden;
+}
+#cta-final::before{
+  content:'';position:absolute;inset:0;
+  background-image:radial-gradient(circle,rgba(255,255,255,.04) 1px,transparent 1px);
+  background-size:32px 32px;
+}
+.cta-inner{position:relative;z-index:1;max-width:640px;margin:0 auto;}
+.cta-inner h2{color:#fff;margin-bottom:16px;}
+.cta-inner .sec-p-w{margin-bottom:32px;}
+
+/* ── FOOTER ── */
+footer{background:var(--navy);border-top:1px solid rgba(255,255,255,.07);padding:40px 0 24px;}
+.footer-bottom{
+  text-align:center;font-size:12px;color:rgba(255,255,255,.35);
+  padding-top:20px;border-top:1px solid rgba(255,255,255,.05);margin-top:20px;
+}
+
+/* ── TOAST ── */
+#toast{
+  position:fixed;bottom:80px;left:50%;transform:translateX(-50%);
+  background:var(--teal);color:#fff;padding:12px 24px;border-radius:100px;
+  font-size:13px;font-weight:600;z-index:9999;display:none;
+  box-shadow:0 4px 20px rgba(0,0,0,.2);
+}
+</style>
+</head>
+<body>
+
+<!-- FAB -->
+<a id="fab-postular" href="#formulario">Postularme al equipo CTH →</a>
+<script>
+(function(){
+  function init(){
+    var fab=document.getElementById('fab-postular');
+    var hero=document.getElementById('hero');
+    if(!fab||!hero)return;
+    fab.style.display='none';
+    function check(){fab.style.display=(hero.getBoundingClientRect().bottom<0)?'flex':'none';}
+    window.addEventListener('scroll',check,{passive:true});
+    check();
+  }
+  document.readyState==='loading'?document.addEventListener('DOMContentLoaded',init):init();
+})();
+</script>
+
+<!-- NAV -->
+<nav id="main-nav">
+  <div class="nav-inner">
+    <div class="nav-logo">
+      <img src="cuidamostuherida.jpg" alt="Cuidamos Tu Herida">
+    </div>
+    <ul class="nav-links">
+      <li><a href="#identificacion">¿Para quién?</a></li>
+      <li><a href="#beneficios">Beneficios</a></li>
+      <li><a href="#tecnologia">Tecnología</a></li>
+      <li><a href="#formulario" class="nav-cta">Postularme →</a></li>
+    </ul>
+    <div class="nav-mob" onclick="toggleMob(this)"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-texture"></div>
+  <div class="hero-glow-r"></div>
+  <div class="hero-glow-l"></div>
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-logo">
+        <img src="cuidamostuherida.jpg" alt="Cuidamos Tu Herida">
+      </div>
+      <div class="hero-badge"><div class="badge-dot"></div><span>Cumbre CHP 2026 · Red de Enfermería</span></div>
+      <h1 class="hero-h1">Eleva tu práctica en el<br>manejo avanzado de <em>heridas</em></h1>
+      <p class="hero-sub">Únete a la red de enfermería de Cuidamos Tu Herida y accede a tecnología especializada, protocolos clínicos avanzados y respaldo médico para potenciar tus casos.</p>
+      <div class="hero-btns">
+        <a href="#formulario" class="btn-teal">Postularme para formar parte del equipo CTH</a>
+        <a href="#flujo" class="btn-outline-w">Conocer cómo trabajamos</a>
+      </div>
+      <p class="hero-refuerzo">No estás sola. Formas parte de un equipo clínico especializado.</p>
+    </div>
+    <div class="hero-vid">
+      <div class="hero-vid-label">▶ Así trabajamos en CTH</div>
+      <div class="vid-ph">
+        <div class="vid-play">
+          <svg width="20" height="20" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        </div>
+        <p>Video institucional · Cuidamos Tu Herida</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S2 IDENTIFICACIÓN -->
+<section id="identificacion">
+  <div class="container">
+    <div class="id-inner">
+      <div class="reveal">
+        <span class="eyebrow ey-teal">¿Eres tú?</span>
+        <h2 class="sec-h" style="margin-top:12px;">Si trabajas con pacientes que requieren cuidado de heridas…</h2>
+        <div class="id-checks">
+          <div class="id-check"><div class="id-check-icon">✓</div><span class="id-check-txt">Realizas curas frecuentes</span></div>
+          <div class="id-check"><div class="id-check-icon">✓</div><span class="id-check-txt">Manejas pacientes postquirúrgicos</span></div>
+          <div class="id-check"><div class="id-check-icon">✓</div><span class="id-check-txt">Atiendes heridas de difícil cicatrización</span></div>
+          <div class="id-check"><div class="id-check-icon">✓</div><span class="id-check-txt">Trabajas de forma independiente o domiciliaria</span></div>
+        </div>
+        <div class="id-frase">Sabemos el nivel de responsabilidad que implica<em> cada paciente.</em></div>
+      </div>
+      <div class="id-visual reveal">
+        <div class="id-stat"><div class="id-stat-n">50+</div><div class="id-stat-l">Instituciones en Venezuela</div></div>
+        <div class="id-stat"><div class="id-stat-n">1,000+</div><div class="id-stat-l">Médicos en el ecosistema</div></div>
+        <div class="id-stat"><div class="id-stat-n">5</div><div class="id-stat-l">Marcas internacionales</div></div>
+        <div class="id-stat"><div class="id-stat-n">+20</div><div class="id-stat-l">Años en Venezuela</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S3 FLUJO -->
+<section id="flujo">
+  <div class="container">
+    <div class="reveal" style="max-width:560px;">
+      <span class="eyebrow ey-teal">Cómo funciona</span>
+      <h2 class="sec-h" style="margin-top:12px;">Así se integra CTH en el cuidado del paciente</h2>
+    </div>
+    <div class="flujo-steps reveal">
+      <div class="fstep">
+        <div class="fstep-num">1</div>
+        <div class="fstep-title">Usted recomienda CTH al paciente</div>
+        <div class="fstep-desc">El médico o la enfermera refiere al paciente a CTH para evaluación especializada.</div>
+      </div>
+      <div class="fstep">
+        <div class="fstep-num">2</div>
+        <div class="fstep-title">CTH evalúa y organiza el manejo</div>
+        <div class="fstep-desc">Evaluación clínica estructurada y planificación del protocolo de tratamiento.</div>
+      </div>
+      <div class="fstep fstep-highlight">
+        <div class="fstep-num">3</div>
+        <div class="fstep-title">Tú ejecutas el tratamiento y seguimiento</div>
+        <div class="fstep-desc">Como parte del equipo CTH, llevas el caso con acompañamiento clínico continuo.</div>
+      </div>
+    </div>
+    <div class="flujo-frase reveal">Te integras a un sistema clínico estructurado, no trabajas de forma aislada.</div>
+  </div>
+</section>
+
+<!-- S4 PROPUESTA DE VALOR -->
+<section id="propuesta">
+  <div class="container">
+    <div class="prop-inner">
+      <div class="reveal">
+        <span class="eyebrow ey-white">Propuesta de valor</span>
+        <h2 class="sec-h-w" style="margin-top:12px;">Una forma diferente de trabajar el cuidado de heridas</h2>
+        <p class="sec-p-w">CTH integra enfermería, tecnología y respaldo médico para optimizar el manejo del paciente desde un enfoque estructurado y especializado.</p>
+        <div class="prop-tag">Tú ejecutas el cuidado. Nosotros respaldamos el proceso clínico.</div>
+      </div>
+      <div class="prop-cards reveal">
+        <div class="prop-card"><div class="prop-card-icon">🩺</div><div class="prop-card-txt"><h4>Respaldo médico directo</h4><p>Orientación clínica en tiempo real para cada caso que manejes.</p></div></div>
+        <div class="prop-card"><div class="prop-card-icon">🔬</div><div class="prop-card-txt"><h4>Tecnología avanzada</h4><p>Acceso a productos y equipos internacionales de última generación.</p></div></div>
+        <div class="prop-card"><div class="prop-card-icon">📋</div><div class="prop-card-txt"><h4>Protocolos estructurados</h4><p>Guías clínicas para estandarizar y mejorar tus resultados.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S5 RESPALDO CLÍNICO -->
+<section id="respaldo">
+  <div class="container">
+    <div class="resp-inner">
+      <div class="reveal">
+        <span class="eyebrow ey-teal">Respaldo clínico</span>
+        <h2 class="sec-h" style="margin-top:12px;">Respaldo médico en cada caso</h2>
+        <p class="sec-p">Nuestro equipo acompaña el manejo de pacientes complejos, brindando orientación clínica, protocolos y soporte para mejorar la toma de decisiones en cada intervención.</p>
+        <ul class="resp-bullets">
+          <li><div class="resp-check">✓</div>Acompañamiento en casos complejos</li>
+          <li><div class="resp-check">✓</div>Mayor seguridad en la práctica</li>
+          <li><div class="resp-check">✓</div>Soporte clínico continuo</li>
+        </ul>
+      </div>
+      <div class="resp-visual reveal">
+        <div class="resp-visual-title">No solo ejecutas el cuidado.<em><br>Lo respaldamos contigo.</em></div>
+        <div class="resp-ico-row">
+          <div class="resp-ico-item"><div class="resp-ico">💬</div><div class="resp-ico-txt">Consultas clínicas en tiempo real</div></div>
+          <div class="resp-ico-item"><div class="resp-ico">📊</div><div class="resp-ico-txt">Seguimiento estructurado del paciente</div></div>
+          <div class="resp-ico-item"><div class="resp-ico">🏥</div><div class="resp-ico-txt">Red de médicos especialistas</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S6 BENEFICIOS -->
+<section id="beneficios">
+  <div class="container">
+    <div class="reveal" style="text-align:center;max-width:560px;margin:0 auto 48px;">
+      <span class="eyebrow ey-teal">Beneficios</span>
+      <h2 class="sec-h" style="margin-top:12px;">Lo que obtienes al formar parte de CTH</h2>
+    </div>
+    <div class="ben-grid reveal">
+      <div class="ben-card">
+        <div class="ben-icon">⚡</div>
+        <div class="ben-title">Acceso Tecnológico</div>
+        <p class="ben-desc">Trabaja con equipos y soluciones avanzadas de marcas internacionales.</p>
+      </div>
+      <div class="ben-card">
+        <div class="ben-icon">📚</div>
+        <div class="ben-title">Educación Continua</div>
+        <p class="ben-desc">Participa en talleres, la Cumbre CHP y actualización clínica constante.</p>
+      </div>
+      <div class="ben-card">
+        <div class="ben-icon">📋</div>
+        <div class="ben-title">Protocolos Clínicos</div>
+        <p class="ben-desc">Estandarización probada para mejores resultados en cada intervención.</p>
+      </div>
+      <div class="ben-card">
+        <div class="ben-icon">🤝</div>
+        <div class="ben-title">Red Profesional</div>
+        <p class="ben-desc">Forma parte de un equipo especializado con respaldo médico continuo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S7 CÓMO UNIRSE -->
+<section id="unirse">
+  <div class="container">
+    <div class="reveal" style="text-align:center;max-width:560px;margin:0 auto;">
+      <span class="eyebrow ey-white">Proceso</span>
+      <h2 class="sec-h-w" style="margin-top:12px;">Cómo funciona formar parte del equipo CTH</h2>
+    </div>
+    <div class="uni-steps reveal">
+      <div class="uni-step"><div class="uni-step-n">01</div><div class="uni-step-title">Te postulas</div><div class="uni-step-desc">Completa el formulario con tu perfil clínico y experiencia.</div></div>
+      <div class="uni-step"><div class="uni-step-n">02</div><div class="uni-step-title">Evaluamos tu perfil</div><div class="uni-step-desc">Revisamos tu formación y experiencia en manejo de heridas.</div></div>
+      <div class="uni-step"><div class="uni-step-n">03</div><div class="uni-step-title">Te integramos a la red</div><div class="uni-step-desc">Accedes a protocolos, tecnología y el equipo clínico CTH.</div></div>
+      <div class="uni-step"><div class="uni-step-n">04</div><div class="uni-step-title">Comienzas a participar</div><div class="uni-step-desc">Ejecutas casos con acompañamiento médico desde el primer día.</div></div>
+    </div>
+    <div class="uni-divider reveal"><div class="uni-frase">Te integras a un sistema clínico estructurado, no trabajas de forma aislada.</div></div>
+    <div style="text-align:center;margin-top:36px;" class="reveal">
+      <a href="#formulario" class="btn-teal">Quiero formar parte del equipo →</a>
+    </div>
+  </div>
+</section>
+
+<!-- S8 TECNOLOGÍA -->
+<section id="tecnologia">
+  <div class="container">
+    <div class="tec-intro reveal">
+      <span class="eyebrow ey-teal">Tecnología</span>
+      <h2 class="sec-h" style="margin-top:12px;">Tecnología internacional en el manejo especializado de heridas</h2>
+      <p class="sec-p">CTH utiliza productos de las principales marcas internacionales distribuidas exclusivamente en Venezuela por Medical Shields MS, C.A.</p>
+    </div>
+    <div class="marcas-grid reveal">
+      <div class="marca-card"><img src="logo-covalon.png" alt="Covalon" onerror="this.style.display='none'"></div>
+      <div class="marca-card"><img src="synkotech.jpg" alt="Synkotech" onerror="this.style.display='none'"></div>
+      <div class="marca-card"><img src="logo-soubeiran.png" alt="Soubeiran Chobet" onerror="this.style.display='none'"></div>
+      <div class="marca-card"><img src="Logo-baihe.png" alt="Baihe ABLE" onerror="this.style.display='none'"></div>
+      <div class="marca-card"><img src="conkote (1).png" alt="Conkote" onerror="this.style.display='none'"></div>
+      <div class="marca-card" style="background:var(--navy);justify-content:center;gap:6px;">
+        <img src="Medical Shields.png" alt="Medical Shields" style="height:40px;width:auto;" onerror="this.style.display='none'">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S9 EDUCACIÓN -->
+<section id="educacion">
+  <div class="container">
+    <div class="edu-inner">
+      <div class="reveal">
+        <span class="eyebrow ey-teal">Ecosistema</span>
+        <h2 class="sec-h" style="margin-top:12px;">Formación continua y crecimiento profesional</h2>
+        <p class="sec-p">CTH forma parte de un ecosistema que impulsa la actualización constante en el manejo de heridas, integrando educación, tecnología y práctica clínica.</p>
+        <div class="edu-cards">
+          <div class="edu-card"><div class="edu-card-ico">🏆</div><div class="edu-card-title">Cumbre CHP</div><div class="edu-card-desc">Evento internacional de cuidado avanzado de heridas.</div></div>
+          <div class="edu-card"><div class="edu-card-ico">📅</div><div class="edu-card-title">Eventos anuales</div><div class="edu-card-desc">Talleres y actualizaciones durante todo el año.</div></div>
+          <div class="edu-card"><div class="edu-card-ico">📋</div><div class="edu-card-title">Protocolos clínicos</div><div class="edu-card-desc">Acceso a guías estructuradas y evidencia clínica.</div></div>
+          <div class="edu-card"><div class="edu-card-ico">🔬</div><div class="edu-card-title">Innovación</div><div class="edu-card-desc">Primero en acceder a nuevas tecnologías del sector.</div></div>
+        </div>
+        <div class="edu-frase">Aquí no solo trabajas, evolucionas profesionalmente.</div>
+      </div>
+      <div class="edu-visual reveal">
+        <div class="edu-ecosistema">
+          <div class="edu-eco-title">Un ecosistema médico enfocado en formación</div>
+          <ul class="edu-eco-list">
+            <li>Medical Shields MS, C.A. — distribuidor exclusivo</li>
+            <li>Cuidamos Tu Herida — clínica especializada</li>
+            <li>Cumbre CHP — formación internacional</li>
+            <li>5 marcas internacionales de vanguardia</li>
+            <li>Red de +1,000 médicos en Venezuela</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S10 FORMULARIO -->
+<section id="formulario">
+  <div class="container">
+    <div class="form-inner">
+      <div class="form-left reveal">
+        <span class="eyebrow ey-white">Postulación</span>
+        <h2 class="sec-h-w" style="margin-top:12px;">Da el siguiente paso en tu práctica profesional</h2>
+        <p class="sec-p-w">Forma parte de un equipo que trabaja con tecnología avanzada, protocolos estructurados y respaldo clínico en el manejo de heridas.</p>
+        <div class="form-cta-txt">"Esto eleva mi práctica como enfermera."</div>
+      </div>
+      <div class="reveal">
+        <div class="form-card">
+          <div id="form-body">
+            <h3>Postulación a la red de enfermería CTH</h3>
+            <form id="postulacion-form">
+              <div class="form-grid">
+                <div class="form-group full">
+                  <label>Nombre y Apellido *</label>
+                  <input type="text" id="f-nombre" placeholder="Tu nombre completo" required>
+                </div>
+                <div class="form-group">
+                  <label>Email *</label>
+                  <input type="email" id="f-email" placeholder="tu@email.com" required>
+                </div>
+                <div class="form-group">
+                  <label>Teléfono *</label>
+                  <input type="tel" id="f-telefono" placeholder="+58 4XX XXX XXXX" required>
+                </div>
+                <div class="form-group">
+                  <label>Nivel Académico</label>
+                  <select id="f-nivel">
+                    <option value="">Seleccionar...</option>
+                    <option>TSU en Enfermería</option>
+                    <option>Licenciado(a) en Enfermería</option>
+                    <option>Especialización en Enfermería</option>
+                    <option>Maestría / Posgrado</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Institución</label>
+                  <input type="text" id="f-institucion" placeholder="Hospital, clínica o independiente">
+                </div>
+                <div class="form-group">
+                  <label>Cargo actual</label>
+                  <input type="text" id="f-cargo" placeholder="Ej: Enfermera supervisora">
+                </div>
+                <div class="form-group full">
+                  <label>¿Realiza curas a domicilio?</label>
+                  <select id="f-domicilio">
+                    <option value="">Seleccionar...</option>
+                    <option>Sí, regularmente</option>
+                    <option>Sí, ocasionalmente</option>
+                    <option>No, solo institucional</option>
+                    <option>Estoy interesada en hacerlo</option>
+                  </select>
+                </div>
+              </div>
+              <button type="submit" class="form-submit" id="form-btn">Enviar postulación →</button>
+            </form>
+          </div>
+          <div class="form-success" id="form-success">
+            <div class="form-success-icon">✅</div>
+            <h3>¡Registro recibido con éxito!</h3>
+            <p>Gracias por tu interés en formar parte de la red de enfermería de Cuidamos Tu Herida.<br><br>Un miembro de nuestro equipo se pondrá en contacto contigo para compartir los detalles clínicos y operativos de la integración.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px;">
+      <div>
+        <img src="cuidamostuherida.jpg" alt="CTH" style="height:36px;width:auto;margin-bottom:8px;" onerror="this.style.display='none'">
+        <div style="font-size:12px;color:rgba(255,255,255,.45);">Unidad Médica · Caracas, Venezuela</div>
+      </div>
+      <div style="font-size:12px;color:rgba(255,255,255,.4);">Parte del ecosistema Medical Shields MS, C.A.</div>
+    </div>
+    <div class="footer-bottom">© 2026 Cuidamos Tu Herida · Todos los derechos reservados</div>
+  </div>
+</footer>
+
+<div id="toast"></div>
+
+<script>
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbzAVoeDUqDkMeWVpeqQ5VTAHJES_tzzBfJ37sTaLPQpRBVk1FHeeauCMEfrvQY8xLqe/exec';
+
+// Scroll reveal
+const observer = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});
+},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+// Nav scroll
+window.addEventListener('scroll',()=>{
+  document.getElementById('main-nav').classList.toggle('scrolled',window.scrollY>40);
+},{passive:true});
+
+// Mobile nav
+function toggleMob(el){
+  const ul=document.querySelector('.nav-links');
+  const open=ul.style.display==='flex';
+  ul.style.cssText=open?'':'display:flex;flex-direction:column;position:absolute;top:68px;left:0;right:0;background:#fff;padding:20px 28px;gap:16px;box-shadow:var(--sh);z-index:99;';
+}
+
+// Toast
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.style.display='block';
+  setTimeout(()=>t.style.display='none',3000);
+}
+
+// Formulario → Google Sheets
+document.getElementById('postulacion-form').addEventListener('submit',async function(e){
+  e.preventDefault();
+  const btn=document.getElementById('form-btn');
+  btn.textContent='Enviando...';btn.disabled=true;
+
+  const data={
+    accion: 'registroEnfermera',
+    nombre:      document.getElementById('f-nombre').value.trim(),
+    email:       document.getElementById('f-email').value.trim(),
+    telefono:    document.getElementById('f-telefono').value.trim(),
+    nivel:       document.getElementById('f-nivel').value,
+    institucion: document.getElementById('f-institucion').value.trim(),
+    cargo:       document.getElementById('f-cargo').value.trim(),
+    domicilio:   document.getElementById('f-domicilio').value,
+    timestamp:   new Date().toISOString(),
+    fuente:      'Landing Enfermeras CHP 2026'
+  };
+
+  try{
+    await fetch(SHEET_URL,{
+      method:'POST',
+      mode:'no-cors',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(data)
+    });
+    document.getElementById('form-body').style.display='none';
+    document.getElementById('form-success').style.display='block';
+  } catch(err){
+    btn.textContent='Enviar postulación →';
+    btn.disabled=false;
+    toast('Error al enviar. Intenta de nuevo.');
+  }
+});
+</script>
+</body>
+</html>
