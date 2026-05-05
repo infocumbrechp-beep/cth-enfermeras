@@ -1470,7 +1470,11 @@ document.getElementById('postulacion-form').addEventListener('submit',function(e
   </div>
 </div>
 <script>
-function openModal(id){document.getElementById('modal-'+id).classList.add('active');}
+function toggleProd(id){
+  var el = document.getElementById(id);
+  el.classList.toggle('open');
+}
+  function openModal(id){document.getElementById('modal-'+id).classList.add('active');}
 document.addEventListener('keydown',function(e){if(e.key==='Escape')document.querySelectorAll('.prod-modal-overlay.active').forEach(function(m){m.classList.remove('active');});});
 </script>
 </body>
