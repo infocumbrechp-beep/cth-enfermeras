@@ -622,6 +622,17 @@ footer{background:var(--navy);border-top:1px solid rgba(255,255,255,.07);padding
 .vid-dots { display:flex; justify-content:center; gap:8px; margin-top:12px; }
 .vid-dot { width:8px; height:8px; border-radius:50%; background:rgba(255,255,255,.3); cursor:pointer; transition:background .2s; border:none; padding:0; }
 .vid-dot.active { background:#00796B; }
+
+/* ── CARRUSEL DE VIDEOS ── */
+.vid-carousel { width:100%; overflow:hidden; border-radius:20px; position:relative; }
+.vid-carousel-track { display:flex; transition:transform .4s ease; }
+.vid-carousel-slide { min-width:100%; position:relative; }
+.vid-carousel-slide.horizontal { aspect-ratio:16/9; }
+.vid-carousel-slide.vertical { aspect-ratio:9/16; max-width:280px; margin:0 auto; }
+.vid-carousel-slide iframe { width:100%; height:100%; border:none; border-radius:20px; }
+.vid-dots { display:flex; justify-content:center; gap:8px; margin-top:12px; }
+.vid-dot { width:8px; height:8px; border-radius:50%; background:rgba(255,255,255,.3); cursor:pointer; border:none; padding:0; }
+.vid-dot.active { background:#00796B; }
 </style>
 </head>
 <body>
@@ -678,14 +689,28 @@ footer{background:var(--navy);border-top:1px solid rgba(255,255,255,.07);padding
       </div>
       <p class="hero-refuerzo">No estás solo(a). Formas parte de un equipo clínico especializado.</p>
     </div>
-    <div class="hero-vid">
+    <div class="hero-vid" style="background:transparent;border:none;box-shadow:none;aspect-ratio:unset;padding:0;">
       <div class="hero-vid-label">▶ Así trabajamos en CTH</div>
-      <iframe
-          src="https://www.youtube.com/embed/A0-HenFabKs?rel=0&modestbranding=1&playsinline=1"
-          title="CTH — Cuidamos Tu Herida" frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
-          allowfullscreen style="width:100%;height:100%;border:none;border-radius:12px;">
-        </iframe>
+      <div class="vid-carousel">
+        <div class="vid-carousel-track" id="vid-track">
+          <div class="vid-carousel-slide horizontal">
+            <iframe src="https://www.youtube.com/embed/A0-HenFabKs?rel=0&modestbranding=1&playsinline=1"
+              title="CTH" frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+              allowfullscreen style="width:100%;height:100%;border:none;border-radius:20px;"></iframe>
+          </div>
+          <div class="vid-carousel-slide vertical">
+            <iframe src="https://www.youtube.com/embed/LdsU-4sF8S4?rel=0&modestbranding=1&playsinline=1"
+              title="CTH" frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+              allowfullscreen style="width:100%;height:100%;border:none;border-radius:20px;"></iframe>
+          </div>
+        </div>
+        <div class="vid-dots">
+          <button class="vid-dot active"></button>
+          <button class="vid-dot"></button>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -1500,6 +1525,19 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')document.que
   var dots = document.querySelectorAll('.vid-dot');
   if (!track) return;
   var cur = 0;
+  function go(n){ cur=n; track.style.transform='translateX(-'+(n*100)+'%)'; dots.forEach(function(d,i){ d.classList.toggle('active',i===n); }); }
+  track.parentElement.addEventListener('touchstart',function(e){ window._sx=e.touches[0].clientX; },{passive:true});
+  track.parentElement.addEventListener('touchend',function(e){ var d=window._sx-e.changedTouches[0].clientX; if(Math.abs(d)>40) go(d>0?Math.min(1,cur+1):Math.max(0,cur-1)); },{passive:true});
+  dots.forEach(function(d,i){ d.addEventListener('click',function(){ go(i); }); });
+  go(0);
+})();
+</script>
+<script>
+(function(){
+  var track=document.getElementById('vid-track');
+  var dots=document.querySelectorAll('.vid-dot');
+  if(!track) return;
+  var cur=0;
   function go(n){ cur=n; track.style.transform='translateX(-'+(n*100)+'%)'; dots.forEach(function(d,i){ d.classList.toggle('active',i===n); }); }
   track.parentElement.addEventListener('touchstart',function(e){ window._sx=e.touches[0].clientX; },{passive:true});
   track.parentElement.addEventListener('touchend',function(e){ var d=window._sx-e.changedTouches[0].clientX; if(Math.abs(d)>40) go(d>0?Math.min(1,cur+1):Math.max(0,cur-1)); },{passive:true});
